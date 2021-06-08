@@ -12,6 +12,7 @@ class DevelopmentConfig(Config):
     PORT = 5050
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    BCRYPT_LOG_ROUNDS = 4
 
 
 class TestConfig(DevelopmentConfig):
@@ -25,6 +26,7 @@ class ProductionConfig(Config):
     DEBUG = False
     HOST = "0.0.0.0"
     PORT = 5080
+    BCRYPT_LOG_ROUNDS = 10
 
 
 flaskconfig = {

@@ -9,3 +9,7 @@ Project is created with:
 * Flask 2.0
 * PyTest 6.2
 * SQL Alchemy 2.5
+
+
+## Sources
+https://gitlab.com/patkennedy79/flask_user_management_example/-/tree/main/project

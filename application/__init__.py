@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 from config import flaskconfig
 from loguru import logger
@@ -7,7 +8,7 @@ import logging
 
 
 db = SQLAlchemy()
-
+bcrypt = Bcrypt()
 
 class PrefixMiddleware(object):
     def __init__(self, app, prefix=""):
@@ -51,6 +52,7 @@ def create_app(config_name):
     app = Flask(__name__, static_url_path="/app/static")
     app.config.from_object(flaskconfig[config_name])
     db.init_app(app)
+    bcrypt.init_app(app)
 
     # app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["URL_PREFIX"])
 
