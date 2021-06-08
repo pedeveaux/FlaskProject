@@ -10,6 +10,8 @@ class DevelopmentConfig(Config):
     LOG_LEVEL = "DEBUG"
     HOST = "0.0.0.0"
     PORT = 5050
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class TestConfig(DevelopmentConfig):

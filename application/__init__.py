@@ -52,7 +52,7 @@ def create_app(config_name):
     app.config.from_object(flaskconfig[config_name])
     db.init_app(app)
 
-    app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["URL_PREFIX"])
+    # app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["URL_PREFIX"])
 
     logger.start(
         app.config["LOGFILE"],
