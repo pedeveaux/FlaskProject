@@ -1,8 +1,4 @@
-from application import create_app
+from application import create_app, register_blueprints
 
 app = create_app("development")
-
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello from Flask!</p>"
+register_blueprints(app)

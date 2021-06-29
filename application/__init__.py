@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 from config import flaskconfig
 from loguru import logger
@@ -9,6 +10,8 @@ import logging
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+login = LoginManager()
+
 
 class PrefixMiddleware(object):
     def __init__(self, app, prefix=""):
@@ -18,7 +21,7 @@ class PrefixMiddleware(object):
     def __call__(self, environ, start_response):
 
         if environ["PATH_INFO"].startswith(self.prefix):
-            environ["PATH_INFO"] = environ["PATH_INFO"][len(self.prefix):]
+            environ["PATH_INFO"] = environ["PATH_INFO"][len(self.prefix) :]
             environ["SCRIPT_NAME"] = self.prefix
             return self.app(environ, start_response)
         else:
@@ -45,14 +48,19 @@ class InterceptHandler(logging.Handler):
         logger_opt.log(level, record.getMessage())
 
 
+def initialize_extensions(app):
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login.init_app(app)
+
+
 def create_app(config_name):
     """
     Application factory to initialize the Flask app
     """
     app = Flask(__name__, static_url_path="/app/static")
     app.config.from_object(flaskconfig[config_name])
-    db.init_app(app)
-    bcrypt.init_app(app)
+    initialize_extensions(app)
 
     # app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["URL_PREFIX"])
 
@@ -71,3 +79,9 @@ def create_app(config_name):
 
     logger.info("****** Application Server Starting *******")
     return app
+
+
+def register_blueprints(app):
+    from application.auth.auth import bp as auth_bp
+
+    app.register_blueprint(auth_bp, url_prefix='/auth')

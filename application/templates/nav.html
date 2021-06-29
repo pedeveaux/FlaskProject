@@ -1,0 +1,33 @@
+{{define "nav"}}
+<div id="sitenav" class="logo">
+    <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li class="dropdown">
+            <a class="dropbtn">Manufacturings</a>
+            <div class="dropdown-content">
+                <a href="/standard">Standard Line</a>
+                <a href="/custom">Custom Line Recipe</a>
+                <a href="/elite">Elite Lines</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a class="dropbtn">Sales</a>
+            <div class="dropdown-content">
+                <a href="/northamerica">North America</a>
+                <a href="/europe">Europe</a>
+                <a href="/africa">Africa</a>
+                <a href="/asia">Asia</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a class="dropbtn">Logistics</a>
+            <div class="dropdown-content">
+                <a href="/shipping">Shipping</a>
+                <a href="/receiving">Receiving</a>
+                <a href="/inventoryr">Inventory</a>
+            </div>
+        </li>
+    </ul>
+</div>
+{{end}}

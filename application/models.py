@@ -1,8 +1,14 @@
 from sqlalchemy.orm import backref, relationship
-from application import db, bcrypt
+from application import db, bcrypt, login
+from flask_login import UserMixin
 
 
-class User(db.Model):
+@login.user_loader
+def load_user(id) -> int:
+    return User.query.get(int(id))
+
+
+class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,6 +29,9 @@ class User(db.Model):
             "utf-8"
         )
 
+    def check_password(self, plaintext_password: str) -> bool:
+        return bcrypt.check_password_hash(self.hashed_password, plaintext_password)
+
 
 class Permission(db.Model):
 
@@ -40,4 +49,6 @@ class UserPermission(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     permission_id = db.Column(db.Integer, db.ForeignKey("permissions.id"))
     users = relationship("User", backref=backref("users", uselist=False))
-    permissions = relationship("Permission", backref=backref("permissions", uselist=False))
+    permissions = relationship(
+        "Permission", backref=backref("permissions", uselist=False)
+    )
